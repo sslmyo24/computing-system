@@ -1,0 +1,97 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/ALU.hdl
+
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+    ZERO(bus=x, cond=zx, out=x0);
+    ZERO(bus=y, cond=zy, out=y0);
+
+    RVS(bus=x0, cond=nx, out=tx);
+    RVS(bus=y0, cond=ny, out=ty);
+
+    Add16(a=tx, b=ty, out=add);
+    And16(a=tx, b=ty, out=and);
+
+    Not(in=f, out=notf);
+    ZERO(bus=add, cond=notf, out=addout);
+    ZERO(bus=and, cond=f, out=andout);
+    Or16(a=andout, b=addout, out=calc);
+
+    RVS(bus=calc, cond=no, out=out);
+
+    RVS(bus=calc, cond=no, out=outchk,
+        out[0]=outchk0,
+        out[1]=outchk1,
+        out[2]=outchk2,
+        out[3]=outchk3,
+        out[4]=outchk4,
+        out[5]=outchk5,
+        out[6]=outchk6,
+        out[7]=outchk7,
+        out[8]=outchk8,
+        out[9]=outchk9,
+        out[10]=outchk10,
+        out[11]=outchk11,
+        out[12]=outchk12,
+        out[13]=outchk13,
+        out[14]=outchk14,
+        out[15]=outchk15
+    );
+    Or(a=outchk0, b=false, out=notchk1);
+    Or(a=outchk1, b=notchk1, out=notchk2);
+    Or(a=outchk2, b=notchk2, out=notchk3);
+    Or(a=outchk3, b=notchk3, out=notchk4);
+    Or(a=outchk4, b=notchk4, out=notchk5);
+    Or(a=outchk5, b=notchk5, out=notchk6);
+    Or(a=outchk6, b=notchk6, out=notchk7);
+    Or(a=outchk7, b=notchk7, out=notchk8);
+    Or(a=outchk8, b=notchk8, out=notchk9);
+    Or(a=outchk9, b=notchk9, out=notchk10);
+    Or(a=outchk10, b=notchk10, out=notchk11);
+    Or(a=outchk11, b=notchk11, out=notchk12);
+    Or(a=outchk12, b=notchk12, out=notchk13);
+    Or(a=outchk13, b=notchk13, out=notchk14);
+    Or(a=outchk14, b=notchk14, out=notchk15);
+    Or(a=outchk15, b=notchk15, out=notchk);
+    Not(in=notchk, out=zr);
+    And(a=outchk15, b=true, out=ng);
+}   
