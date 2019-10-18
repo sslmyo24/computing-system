@@ -1,0 +1,38 @@
+CHIP RVS {
+	IN bus[16], cond;
+	OUT out[16];
+
+	PARTS:
+    Not(in=bus[0], out=notbus0);
+    Not(in=bus[1], out=notbus1);
+    Not(in=bus[2], out=notbus2);
+    Not(in=bus[3], out=notbus3);
+    Not(in=bus[4], out=notbus4);
+    Not(in=bus[5], out=notbus5);
+    Not(in=bus[6], out=notbus6);
+    Not(in=bus[7], out=notbus7);
+    Not(in=bus[8], out=notbus8);
+    Not(in=bus[9], out=notbus9);
+    Not(in=bus[10], out=notbus10);
+    Not(in=bus[11], out=notbus11);
+    Not(in=bus[12], out=notbus12);
+    Not(in=bus[13], out=notbus13);
+    Not(in=bus[14], out=notbus14);
+    Not(in=bus[15], out=notbus15);
+    HalfAdder(a=cond, b=notbus0, sum=out[0], carry=ca1);
+    HalfAdder(a=cond, b=notbus1, sum=out[1], carry=ca2);
+    HalfAdder(a=cond, b=notbus2, sum=out[2], carry=ca3);
+    HalfAdder(a=cond, b=notbus3, sum=out[3], carry=ca4);
+    HalfAdder(a=cond, b=notbus4, sum=out[4], carry=ca5);
+    HalfAdder(a=cond, b=notbus5, sum=out[5], carry=ca6);
+    HalfAdder(a=cond, b=notbus6, sum=out[6], carry=ca7);
+    HalfAdder(a=cond, b=notbus7, sum=out[7], carry=ca8);
+    HalfAdder(a=cond, b=notbus8, sum=out[8], carry=ca9);
+    HalfAdder(a=cond, b=notbus9, sum=out[9], carry=ca10);
+    HalfAdder(a=cond, b=notbus10, sum=out[10], carry=ca11);
+    HalfAdder(a=cond, b=notbus11, sum=out[11], carry=ca12);
+    HalfAdder(a=cond, b=notbus12, sum=out[12], carry=ca13);
+    HalfAdder(a=cond, b=notbus13, sum=out[13], carry=ca14);
+    HalfAdder(a=cond, b=notbus14, sum=out[14], carry=ca15);
+    HalfAdder(a=cond, b=notbus15, sum=out[15], carry=ca16);
+}

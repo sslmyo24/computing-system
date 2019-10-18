@@ -1,0 +1,23 @@
+CHIP ZERO {
+    IN bus[16], cond;
+    OUT out[16];
+
+    PARTS:
+    Not(in=cond, out=notcond);
+    And(a=notcond, b=bus[0], out=out[0]);
+    And(a=notcond, b=bus[1], out=out[1]);
+    And(a=notcond, b=bus[2], out=out[2]);
+    And(a=notcond, b=bus[3], out=out[3]);
+    And(a=notcond, b=bus[4], out=out[4]);
+    And(a=notcond, b=bus[5], out=out[5]);
+    And(a=notcond, b=bus[6], out=out[6]);
+    And(a=notcond, b=bus[7], out=out[7]);
+    And(a=notcond, b=bus[8], out=out[8]);
+    And(a=notcond, b=bus[9], out=out[9]);
+    And(a=notcond, b=bus[10], out=out[10]);
+    And(a=notcond, b=bus[11], out=out[11]);
+    And(a=notcond, b=bus[12], out=out[12]);
+    And(a=notcond, b=bus[13], out=out[13]);
+    And(a=notcond, b=bus[14], out=out[14]);
+    And(a=notcond, b=bus[15], out=out[15]);
+}
